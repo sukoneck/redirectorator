@@ -1,0 +1,2 @@
+# redirectorator
+simple redirection tool
