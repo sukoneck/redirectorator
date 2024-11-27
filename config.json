@@ -1,0 +1,12 @@
+{
+  "test.sukoneck.com": {
+    "type": "api",
+    "message": "This API has been decommissioned. Please use the new API at https://new-api.example.com",
+    "status": 410
+  },
+  "test.sukoneck.com": {
+    "type": "web",
+    "redirectUrl": "https://new-site.example.com",
+    "message": "This service has moved. Redirecting you to the new location..."
+  }
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service Notice</title>
+    <script>
+        async function loadConfig() {
+            try {
+                const response = await fetch('config.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load configuration');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Error loading config:', error);
+                document.getElementById('message').textContent = 'Service configuration error';
+                return {};
+            }
+        }
+
+        async function handleRequest() {
+            const config = await loadConfig();
+            const host = window.location.hostname;
+            const service = config[host];
+
+            if (!service) {
+                document.getElementById('message').textContent = 'Unknown service';
+                return;
+            }
+
+            if (service.type === 'api') {
+                document.getElementById('message').textContent = service.message;
+            } else if (service.type === 'web') {
+                document.getElementById('message').textContent = service.message;
+                setTimeout(() => {
+                    window.location.href = service.redirectUrl;
+                }, 3000);
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 600px;
+            margin: 48px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .notice {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body onload="handleRequest()">
+    <div class="notice">
+        <h1>Service Notice</h1>
+        <p id="message"></p>
+    </div>
+</body>
+</html>
