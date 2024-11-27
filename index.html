@@ -38,7 +38,7 @@
 
             document.getElementById('message').textContent = route.message;
             if (route.redirectUrl) {
-                const seconds = 3;
+                const seconds = config.redirectDelay || 5;
                 let count = seconds;
                 document.getElementById('message').textContent += ` Redirecting in ${count} seconds...`;
                 const interval = setInterval(() => {
