@@ -6,34 +6,51 @@
         async function loadConfig() {
             try {
                 const response = await fetch('config.json');
-                if (!response.ok) {
-                    throw new Error('Failed to load configuration');
-                }
                 return await response.json();
             } catch (error) {
-                console.error('Error loading config:', error);
-                document.getElementById('message').textContent = 'Service configuration error';
-                return {};
+                console.error('Failed to load config:', error);
+                return { routes: [] };
             }
         }
 
         async function handleRequest() {
             const config = await loadConfig();
-            const host = window.location.hostname;
-            const service = config[host];
+            const url = new URL(window.location.href);
+            const host = url.hostname;
+            const path = url.pathname;
 
-            if (!service) {
+            const route = config.routes
+                .sort((a, b) => b.path.length - a.path.length)
+                .find(r => (r.host === host || r.host === '*') && path.startsWith(r.path));
+
+            if (!route) {
                 document.getElementById('message').textContent = 'Unknown service';
                 return;
             }
 
-            if (service.type === 'api') {
-                document.getElementById('message').textContent = service.message;
-            } else if (service.type === 'web') {
-                document.getElementById('message').textContent = service.message;
-                setTimeout(() => {
-                    window.location.href = service.redirectUrl;
-                }, 3000);
+            if (route.type === 'api') {
+                document.body.innerHTML = JSON.stringify({
+                    status: route.status || 410,
+                    message: route.message
+                });
+                return;
+            }
+
+            document.getElementById('message').textContent = route.message;
+            if (route.redirectUrl) {
+                const seconds = 3;
+                let count = seconds;
+                document.getElementById('message').textContent += ` Redirecting in ${count} seconds...`;
+                const interval = setInterval(() => {
+                    count--;
+                    if (count <= 0) {
+                        clearInterval(interval);
+                        window.location.href = route.redirectUrl;
+                    } else {
+                        document.getElementById('message').textContent =
+                            `${route.message} Redirecting in ${count} seconds...`;
+                    }
+                }, 1000);
             }
         }
     </script>
