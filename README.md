@@ -1,3 +1,5 @@
+✨ redirectorator has be redirectoratorated to https://github.com/flashbots/redirectorator ✨
+
 # redirectorator
 simple redirection tool
 
