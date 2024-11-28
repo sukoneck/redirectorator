@@ -2,7 +2,7 @@ name = "redirectorator"
 main = "src/worker.js"
 compatibility_date = "2024-01-01"
 
-triggers = [
+routes = [
   { pattern = "test.sukoneck.com/*", zone_name = "sukoneck.com" },
   { pattern = "test2.sukoneck.com/*", zone_name = "sukoneck.com" }
 ]
