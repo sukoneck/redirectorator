@@ -9,6 +9,13 @@ export const config = {
     },
     {
       host: "test.sukoneck.com",
+      path: "/api/v2",
+      type: "api",
+      message: "This API has also been decommissioned. Please use the new API at https://new-api.example.com",
+      status: 410
+    },
+    {
+      host: "test.sukoneck.com",
       path: "/",
       type: "web",
       message: "This service has moved to a new location",
