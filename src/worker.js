@@ -12,7 +12,7 @@ export default {
       .sort((a, b) => b.path.length - a.path.length)
       .find(r => (r.host === host || r.host === '*') && path.startsWith(r.path));
 
-    // If no route is found, return a 404
+    // If no route, return 404
     if (!route) {
       const status = 404;
       const body = { status, message: 'Unknown service' };
@@ -22,27 +22,23 @@ export default {
       });
     }
 
-    // Main routing logic
-    if (route.type === 'web') {
+    // Respond to browsers
+    const acceptHeader = request.headers.get('Accept') || '';
+    const isBrowserRequest = acceptHeader.includes('text/html');
+
+    if (route.type === 'web' && isBrowserRequest) {
       return new Response(redirectTemplate(route.message, route.redirectUrl, route.status), {
-        headers: { 'Content-Type': 'text/html' },
-        status: 200
-      });
-    } else if (route.type === 'api') {
-      const status = route.status || 410;
-      const body = { status, message: route.message };
-      return new Response(JSON.stringify(body), {
-        status,
-        headers: { 'Content-Type': 'application/json' }
+        status: 200,
+        headers: { 'Content-Type': 'text/html' }
       });
     }
 
-    // Catch-all for invalid route configuration
-    const status = 400;
-    const body = { status, message: 'Invalid route configuration' };
+    // Respond to api
+    const status = route.status || 410;
+    const body = { status, message: route.message };
     return new Response(JSON.stringify(body), {
-      status,
-      headers: { 'Content-Type': 'application/json' }
+        status,
+        headers: { 'Content-Type': 'application/json' }
     });
   }
 }
