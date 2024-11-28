@@ -19,7 +19,7 @@ export const config = {
       path: "/",
       type: "web",
       message: "This service has moved to a new location",
-      redirectUrl: "https://sukoneck.com",
+      redirectUrl: "https://example.com/test",
       status: 301
     },
     {
@@ -34,7 +34,22 @@ export const config = {
       path: "/",
       type: "web",
       message: "This service has moved to a new location",
-      redirectUrl: "https://sukoneck.com",
+      redirectUrl: "https://example.com/test2",
+      status: 301
+    },
+    {
+      host: "test.complacent.fyi",
+      path: "/api/v1",
+      type: "api",
+      message: "Second API has been decommissioned",
+      status: 410
+    },
+    {
+      host: "test.complacent.fyi",
+      path: "/",
+      type: "web",
+      message: "This service has moved to a new location",
+      redirectUrl: "https://example.com/complacent",
       status: 301
     }
   ]

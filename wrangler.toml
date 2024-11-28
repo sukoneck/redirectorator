@@ -4,7 +4,8 @@ compatibility_date = "2024-01-01"
 
 routes = [
   { pattern = "test.sukoneck.com/*", zone_name = "sukoneck.com" },
-  { pattern = "test2.sukoneck.com/*", zone_name = "sukoneck.com" }
+  { pattern = "test2.sukoneck.com/*", zone_name = "sukoneck.com" },
+  { pattern = "test.complacent.fyi/*", zone_name = "complacent.fyi" }
 ]
 
 [observability.logs]
